@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🎮 Spot the Fake Message</title>
+  <style>
+    /* Reset and Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    :root {
+      /* Primary Color Palette */
+      --primary: #4361ee;
+      --primary-dark: #3a0ca3;
+      --accent: #f72585;
+      --success: #4cc9f0;
+      --warning: #f8961e;
+      
+      /* Neutral Colors */
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --white: #ffffff;
+      --black: #000000;
+      
+      /* Gradients */
+      --blue-gradient: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+      --pink-gradient: linear-gradient(135deg, #f72585 0%, #7209b7 100%);
+      --light-gradient: linear-gradient(180deg, #ffffff 0%, #f8f9ff 100%);
+    }
+
+    body {
+      background: var(--light-gradient);
+      color: var(--dark);
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 25px 20px;
+      background: var(--blue-gradient);
+      color: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(67, 97, 238, 0.15);
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .subtitle strong {
+      color: var(--success);
+    }
+
+    /* Game Container */
+    .app {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Progress Section */
+    .progress-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      background: var(--white);
+      padding: 18px 25px;
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    #progress {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .progress-bar {
+      width: 65%;
+      height: 12px;
+      background: #e9ecef;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    #progressFill {
+      height: 100%;
+      width: 0%;
+      background: var(--pink-gradient);
+      transition: width 0.5s ease;
+    }
+
+    /* Message Card */
+    .message-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 35px 30px;
+      margin: 25px 0 35px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border-left: 6px solid var(--primary);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .message-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+
+    .message-text {
+      font-size: 1.3rem;
+      line-height: 1.7;
+      color: var(--dark);
+      text-align: center;
+    }
+
+    /* Buttons */
+    .buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 16px 32px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-width: 160px;
+    }
+
+    .btn.safe {
+      background: var(--success);
+      color: white;
+      box-shadow: 0 6px 15px rgba(76, 201, 240, 0.3);
+    }
+
+    .btn.safe:hover {
+      background: #3ab8dd;
+      transform: translateY(-3px);
+      box-shadow: 0 9px 20px rgba(76, 201, 240, 0.4);
+    }
+
+    .btn.fraud {
+      background: var(--warning);
+      color: white;
+      box-shadow: 0 6px 15px rgba(248, 150, 30, 0.3);
+    }
+
+    .btn.fraud:hover {
+      background: #e08517;
+      transform: translateY(-3px);
+      box-shadow: 0 9px 20px rgba(248, 150, 30, 0.4);
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .btn.next {
+      background: var(--blue-gradient);
+      color: white;
+      padding: 14px 28px;
+    }
+
+    .btn.next:hover {
+      opacity: 0.9;
+      transform: translateY(-3px);
+    }
+
+    .btn.speak {
+      background: var(--accent);
+      color: white;
+      padding: 14px 28px;
+    }
+
+    .btn.speak:hover {
+      background: #e11476;
+      transform: translateY(-3px);
+    }
+
+    /* Result and Explanation */
+    .result {
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 600;
+      display: none;
+    }
+
+    .result.correct {
+      background: rgba(76, 201, 240, 0.1);
+      color: var(--success);
+      border: 2px solid var(--success);
+      display: block;
+    }
+
+    .result.incorrect {
+      background: rgba(248, 150, 30, 0.1);
+      color: var(--warning);
+      border: 2px solid var(--warning);
+      display: block;
+    }
+
+    .explanation {
+      padding: 25px;
+      background: rgba(67, 97, 238, 0.05);
+      border-radius: 12px;
+      margin: 20px 0 30px;
+      border-left: 4px solid var(--primary);
+      display: none;
+    }
+
+    .explanation.show {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Score */
+    .score {
+      text-align: center;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 25px 0 40px;
+      padding: 20px;
+      background: var(--white);
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      color: var(--primary-dark);
+    }
+
+    /* Education Section */
+    .education {
+      background: var(--white);
+      padding: 30px;
+      border-radius: 16px;
+      margin-top: 40px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+      border-top: 5px solid var(--primary);
+    }
+
+    .education h2 {
+      color: var(--primary-dark);
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      border-bottom: 2px solid rgba(67, 97, 238, 0.1);
+      padding-bottom: 10px;
+    }
+
+    .education ul {
+      padding-left: 20px;
+      margin-bottom: 20px;
+    }
+
+    .education li {
+      margin-bottom: 12px;
+      padding-left: 10px;
+    }
+
+    .education strong {
+      color: var(--primary);
+    }
+
+    .note {
+      background: rgba(248, 150, 30, 0.08);
+      padding: 18px;
+      border-radius: 10px;
+      font-style: italic;
+      border-left: 4px solid var(--warning);
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px;
+      color: var(--gray);
+      font-size: 0.95rem;
+      border-top: 1px solid rgba(108, 117, 125, 0.2);
+    }
+
+    /* Google Translate Widget */
+    #google_translate_element {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 1000;
+      background: white;
+      border-radius: 8px;
+      padding: 5px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 2rem;
+      }
+      
+      .buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .btn {
+        width: 100%;
+        max-width: 300px;
+      }
+      
+      .progress-container {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+      
+      .progress-bar {
+        width: 100%;
+      }
+      
+      .message-text {
+        font-size: 1.1rem;
+      }
+      
+      .controls {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .controls .btn {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+
+    /* Hidden Class */
+    .hidden {
+      display: none;
+    }
+  </style>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {
+          pageLanguage: 'en',
+          includedLanguages: 'en,hi,gu,fr,es',
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+        },
+        'google_translate_element'
+      );
+    }
+  </script>
+  <script type="text/javascript" 
+    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+  </script>
+</head>
+<body>
+  <div id="google_translate_element"></div>
+  
+  <main class="app">
+    <header class="header">
+      <h1>🎮 Spot the Fake Message</h1>
+      <p class="subtitle">Identify whether the message is <strong>Safe</strong> or <strong>Fraud</strong> — learn DSA along the way.</p>
+    </header>
+
+    <section class="game">
+      <div class="progress-container">
+        <div id="progress" class="progress">Round: <span id="round">0</span></div>
+        <div class="progress-bar" aria-hidden="true"><div id="progressFill"></div></div>
+      </div>
+
+      <div id="card" class="message-card">
+        <div id="messageText" class="message-text">Loading message...</div>
+      </div>
+
+      <div class="buttons">
+        <button id="safeBtn" class="btn safe">✅ Safe</button>
+        <button id="fraudBtn" class="btn fraud">❌ Fraud</button>
+      </div>
+
+      <div id="result" class="result hidden"></div>
+
+      <div id="explanation" class="explanation hidden"></div>
+
+      <div class="controls">
+        <button id="nextBtn" class="btn next">Next Message</button>
+        <button id="speakBtn" class="btn speak">🔊 Speak Explanation</button>
+      </div>
+
+      <div class="score">
+        Score: <span id="score">0</span> / <span id="attempts">0</span>
+      </div>
+    </section>
+
+    <section class="education">
+      <h2>DSA Used in This Game</h2>
+      <ul>
+        <li><strong>Array</strong>: all messages are stored in a JavaScript array (collection of message objects).</li>
+        <li><strong>Linear Search</strong>: the game checks your answer by scanning the array one-by-one to find the displayed message and verify its type.</li>
+      </ul>
+      <p class="note">This is a deliberate, easy-to-follow example so beginners can see how data structures and search algorithms work in a real app.</p>
+      <br><a href="f.html"
+   style="
+   display: inline-flex;
+   align-items: center;
+   gap: 10px;
+   padding: 14px 32px;
+   background: linear-gradient(135deg, #4f46e5, #3b82f6);
+   color: white;
+   font-size: 16px;
+   font-weight: 600;
+   text-decoration: none;
+   border-radius: 999px;
+   box-shadow: 0 10px 25px rgba(79,70,229,0.35);
+   transition: all 0.3s ease;
+   "
+   onmouseover="
+     this.style.transform='translateY(-3px)';
+     this.style.boxShadow='0 15px 30px rgba(79,70,229,0.45)';
+     this.style.background='linear-gradient(135deg, #4338ca, #2563eb)';
+   "
+   onmouseout="
+     this.style.transform='translateY(0)';
+     this.style.boxShadow='0 10px 25px rgba(79,70,229,0.35)';
+     this.style.background='linear-gradient(135deg, #4f46e5, #3b82f6)';
+   "
+>
+   Back
+   <span style="font-size: 20px; transition: transform 0.3s ease;"></span>
+</a>
+
+       
+    </section>
+
+    <footer class="footer">Helpful tip: When in doubt, don't click links and verify sender details.</footer>
+  </main>
+
+  <script>
+    // Game Data
+    const messages = [
+      {
+        text: "Your account has been temporarily suspended. Click here to verify your identity: http://secure-bank-verify.com",
+        type: "fraud",
+        explanation: "This is a phishing attempt. Legitimate banks never ask for personal information via links in unsolicited messages."
+      },
+      {
+        text: "Your package is out for delivery today. Track it at USPS.com with tracking number: 9400111899221337123456",
+        type: "safe",
+        explanation: "This is a legitimate shipping notification with a valid tracking number format and official USPS domain."
+      },
+      {
+        text: "Congratulations! You've won a $1000 Walmart gift card. Click to claim: http://gift-walmart-win.com",
+        type: "fraud",
+        explanation: "Unsolicited 'you've won' messages with suspicious links are almost always scams."
+      },
+      {
+        text: "Security alert: New sign-in from Chrome on Windows. If this was you, you can ignore this message.",
+        type: "safe",
+        explanation: "Legitimate security alerts inform you of activity but don't ask for immediate action via links."
+      },
+      {
+        text: "URGENT: Your Netflix payment failed. Update your payment info now to avoid service interruption: http://netflix-billing-update.com",
+        type: "fraud",
+        explanation: "Netflix uses official domains (netflix.com). This link goes to a suspicious third-party site."
+      },
+      {
+        text: "Your doctor's appointment is confirmed for tomorrow at 3:00 PM. Please arrive 15 minutes early.",
+        type: "safe",
+        explanation: "This is a standard appointment confirmation without suspicious links or urgent demands."
+      },
+      {
+        text: "You have 2FA verification code: 458392. Do not share this code with anyone.",
+        type: "safe",
+        explanation: "Legitimate 2FA codes are sent without links and explicitly warn against sharing."
+      },
+      {
+        text: "Your tax refund is pending. Click to complete verification: http://irs-refund-verify-now.com",
+        type: "fraud",
+        explanation: "The IRS never initiates contact via email, text, or social media asking for personal information."
+      }
+    ];
+
+    // Game State
+    let currentRound = 0;
+    let score = 0;
+    let attempts = 0;
+    let currentMessageIndex = 0;
+
+    // DOM Elements
+    const roundElement = document.getElementById('round');
+    const progressFill = document.getElementById('progressFill');
+    const messageText = document.getElementById('messageText');
+    const safeBtn = document.getElementById('safeBtn');
+    const fraudBtn = document.getElementById('fraudBtn');
+    const resultElement = document.getElementById('result');
+    const explanationElement = document.getElementById('explanation');
+    const nextBtn = document.getElementById('nextBtn');
+    const speakBtn = document.getElementById('speakBtn');
+    const scoreElement = document.getElementById('score');
+    const attemptsElement = document.getElementById('attempts');
+
+    // Initialize Game
+    function initGame() {
+      currentRound = 0;
+      score = 0;
+      attempts = 0;
+      currentMessageIndex = Math.floor(Math.random() * messages.length);
+      
+      updateUI();
+      displayMessage();
+    }
+
+    // Display Current Message
+    function displayMessage() {
+      const message = messages[currentMessageIndex];
+      messageText.textContent = message.text;
+      roundElement.textContent = currentRound + 1;
+      
+      // Update progress bar
+      const progressPercentage = ((currentRound) / messages.length) * 100;
+      progressFill.style.width = `${progressPercentage}%`;
+      
+      // Reset result and explanation
+      resultElement.className = 'result hidden';
+      explanationElement.className = 'explanation hidden';
+      nextBtn.style.display = 'none';
+    }
+
+    // Check Answer
+    function checkAnswer(selectedType) {
+      const message = messages[currentMessageIndex];
+      const isCorrect = selectedType === message.type;
+      
+      // Update score
+      attempts++;
+      if (isCorrect) {
+        score++;
+        resultElement.textContent = "✅ Correct! Well done!";
+        resultElement.className = 'result correct';
+      } else {
+        resultElement.textContent = "❌ Incorrect! Let's learn why.";
+        resultElement.className = 'result incorrect';
+      }
+      
+      // Show explanation
+      explanationElement.innerHTML = `<strong>Explanation:</strong> ${message.explanation}`;
+      explanationElement.className = 'explanation show';
+      
+      // Update score display
+      scoreElement.textContent = score;
+      attemptsElement.textContent = attempts;
+      
+      // Show next button
+      nextBtn.style.display = 'flex';
+      
+      // Disable answer buttons
+      safeBtn.disabled = true;
+      fraudBtn.disabled = true;
+    }
+
+    // Next Message
+    function nextMessage() {
+      currentRound++;
+      
+      if (currentRound >= messages.length) {
+        // Game completed
+        messageText.textContent = "Game Complete! You've reviewed all messages.";
+        safeBtn.style.display = 'none';
+        fraudBtn.style.display = 'none';
+        nextBtn.textContent = "Play Again";
+        nextBtn.onclick = initGame;
+        return;
+      }
+      
+      // Get a new random message (different from current)
+      let newIndex;
+      do {
+        newIndex = Math.floor(Math.random() * messages.length);
+      } while (newIndex === currentMessageIndex && messages.length > 1);
+      
+      currentMessageIndex = newIndex;
+      
+      // Re-enable answer buttons
+      safeBtn.disabled = false;
+      fraudBtn.disabled = false;
+      
+      // Update UI
+      displayMessage();
+    }
+
+    // Speak Explanation
+    function speakExplanation() {
+      const message = messages[currentMessageIndex];
+      const speech = new SpeechSynthesisUtterance(message.explanation);
+      speech.rate = 1.0;
+      speech.pitch = 1.0;
+      speech.volume = 1.0;
+      window.speechSynthesis.speak(speech);
+    }
+
+    // Update UI
+    function updateUI() {
+      scoreElement.textContent = score;
+      attemptsElement.textContent = attempts;
+    }
+
+    // Event Listeners
+    safeBtn.addEventListener('click', () => checkAnswer('safe'));
+    fraudBtn.addEventListener('click', () => checkAnswer('fraud'));
+    nextBtn.addEventListener('click', nextMessage);
+    speakBtn.addEventListener('click', speakExplanation);
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', initGame);
+  </script>
+</body>
+</html>

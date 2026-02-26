@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WhatsApp Guide - DigiSathi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --whatsapp-green: #25D366;
+            --whatsapp-teal: #128C7E;
+            --whatsapp-dark: #075E54;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --gradient-primary: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            --gradient-whatsapp: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            --shadow-sm: 0 4px 6px rgba(0,0,0,0.07);
+            --shadow-md: 0 10px 20px rgba(0,0,0,0.1);
+            --shadow-lg: 0 20px 40px rgba(0,0,0,0.15);
+            --radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            line-height: 1.7;
+            background: linear-gradient(180deg, #ffffff 0%, #f8f9ff 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+        }
+
+        /* Navigation */
+        .navbar-custom {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(37, 211, 102, 0.1);
+        }
+
+        .navbar-custom .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .logo:hover .logo-icon {
+            transform: rotate(-10deg) scale(1.05);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--whatsapp-green);
+            background: rgba(37, 211, 102, 0.08);
+        }
+
+        .nav-link.active {
+            color: var(--whatsapp-green);
+            background: rgba(37, 211, 102, 0.1);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        /* Google Translate */
+        .translate-wrapper {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .goog-logo-link,
+        .goog-te-gadget span {
+            display: none !important;
+        }
+
+        .goog-te-gadget {
+            color: transparent !important;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: var(--gradient-whatsapp);
+            color: white;
+            padding: 6rem 1.5rem 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: -100px;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Guide Sections */
+        .guide-section {
+            padding: 4rem 1.5rem;
+            flex: 1;
+        }
+
+        .guide-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Guide Cards */
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .guide-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border: 1px solid rgba(37, 211, 102, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .guide-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-whatsapp);
+            transition: var(--transition);
+        }
+
+        .guide-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .guide-card:hover::before {
+            height: 8px;
+        }
+
+        .card-header {
+            padding: 2rem 2rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(37, 211, 102, 0.1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--whatsapp-green);
+            transition: var(--transition);
+        }
+
+        .guide-card:hover .card-icon {
+            transform: scale(1.1) rotate(5deg);
+            background: rgba(37, 211, 102, 0.15);
+        }
+
+        .card-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0;
+            color: var(--dark);
+        }
+
+        .card-content {
+            padding: 1rem 2rem 2rem;
+        }
+
+        .card-text {
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+
+        .feature-list li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            color: var(--gray);
+        }
+
+        .feature-list li i {
+            color: var(--whatsapp-green);
+            font-size: 1.1rem;
+            margin-top: 0.3rem;
+            flex-shrink: 0;
+        }
+
+        .image-container {
+            background: #f8f9fa;
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-top: 1.5rem;
+            border: 1px solid rgba(37, 211, 102, 0.1);
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .image-container:hover img {
+            transform: scale(1.02);
+        }
+
+        .image-caption {
+            padding: 1rem;
+            background: white;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(37, 211, 102, 0.1);
+        }
+
+        .image-caption i {
+            color: var(--whatsapp-green);
+            margin-right: 0.5rem;
+        }
+
+        /* Privacy Section */
+        .privacy-section {
+            background: linear-gradient(135deg, rgba(37, 211, 102, 0.05) 0%, rgba(248, 249, 250, 0.1) 100%);
+            border-radius: var(--radius);
+            padding: 3rem;
+            margin: 4rem auto;
+            max-width: 1000px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .privacy-section::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(37, 211, 102, 0.05);
+            border-radius: 50%;
+        }
+
+        .privacy-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .privacy-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(37, 211, 102, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: var(--whatsapp-green);
+        }
+
+        .privacy-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin: 0;
+        }
+
+        .privacy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .privacy-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border: 1px solid rgba(37, 211, 102, 0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .privacy-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .privacy-item-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(37, 211, 102, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--whatsapp-green);
+            flex-shrink: 0;
+        }
+
+        .privacy-item-content h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .privacy-item-content p {
+            color: var(--gray);
+            margin: 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Quick Tips Section */
+        .tips-section {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 3rem;
+            border-radius: var(--radius);
+            margin: 4rem auto;
+            max-width: 1000px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tips-section::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .tips-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .tips-text {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Video Button Section */
+        .video-section {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .video-btn-container {
+            position: relative;
+        }
+
+        .video-btn {
+            padding: 1.2rem 3rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            background: var(--gradient-whatsapp);
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .video-btn:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .countdown-text {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            color: var(--whatsapp-green);
+            font-weight: 600;
+            display: none;
+        }
+
+        .progress-container {
+            width: 300px;
+            height: 8px;
+            background-color: rgba(37, 211, 102, 0.1);
+            border-radius: 10px;
+            margin: 1rem auto;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--gradient-whatsapp);
+            transition: width 1s linear;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 5rem 1.5rem 2rem;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            max-width: 300px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+            text-decoration: none;
+        }
+
+        .footer-logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .footer-logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .footer-description {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--whatsapp-green);
+            transform: translateY(-3px);
+        }
+
+        .footer-heading {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .copyright {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-legal a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .footer-legal a:hover {
+            color: white;
+        }
+
+        /* Scroll Button */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-whatsapp);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            z-index: 999;
+        }
+
+        .scroll-top-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .guide-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .privacy-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .privacy-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                color: var(--dark);
+                cursor: pointer;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-legal {
+                justify-content: center;
+            }
+        }
+    </style>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,hi,gu,ta,te,kn,mr',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</head>
+<body>
+    <!-- Google Translate Widget -->
+    <div class="translate-wrapper">
+        <div id="google_translate_element"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar-custom">
+        <div class="container">
+            <a href="main.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <span class="logo-text">DigiSathi</span>
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="main.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="f.html" class="nav-link"><i class="fas fa-graduation-cap"></i> Advanced</a></li>
+                <li><a href="LearnPA.html" class="nav-link active"><i class="fas fa-mobile-alt"></i> App Guides</a></li>
+            </ul>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <div class="hero-icon fade-in">
+                <i class="fab fa-whatsapp"></i>
+            </div>
+            <h1 class="hero-title fade-in delay-1">WhatsApp Guide</h1>
+            <p class="hero-subtitle fade-in delay-1">
+                Learn everything about WhatsApp - from messaging to privacy settings.
+                Perfect for beginners and first-time users.
+            </p>
+        </div>
+    </section>
+
+    <!-- Guide Sections -->
+    <section class="guide-section">
+        <div class="guide-container">
+            <div class="guide-grid">
+                <!-- Messaging Card -->
+                <div class="guide-card fade-in">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-comment-dots"></i>
+                        </div>
+                        <h2>Messaging</h2>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-text">
+                            Send text messages, voice notes, photos, documents, and videos. Always verify unknown numbers before replying to avoid scams.
+                        </p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check-circle"></i> Text messages with emojis and stickers</li>
+                            <li><i class="fas fa-check-circle"></i> Voice messages (hold mic button to record)</li>
+                            <li><i class="fas fa-check-circle"></i> Share photos, videos, and documents</li>
+                            <li><i class="fas fa-check-circle"></i> React to messages with emojis</li>
+                            <li><i class="fas fa-check-circle"></i> Reply to specific messages</li>
+                        </ul>
+                        <div class="image-container">
+                            <div style="height: 200px; background: linear-gradient(135deg, #25D366, #128C7E); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white;">
+                                <i class="fab fa-whatsapp" style="font-size: 4rem; opacity: 0.5;"></i>
+                                <span style="font-size: 1.5rem; margin-left: 1rem;">Chat Screen</span>
+                            </div>
+                            <div class="image-caption">
+                                <i class="fas fa-comment-dots"></i> WhatsApp chat interface
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Voice & Video Calls Card -->
+                <div class="guide-card fade-in delay-1">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <h2>Voice & Video Calls</h2>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-text">
+                            Make free calls over internet. Avoid answering unknown international numbers and be cautious of call scams.
+                        </p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check-circle"></i> Voice calls to any contact worldwide</li>
+                            <li><i class="fas fa-check-circle"></i> Video calls with up to 8 people</li>
+                            <li><i class="fas fa-check-circle"></i> Switch between voice and video</li>
+                            <li><i class="fas fa-check-circle"></i> Mute, speaker, and end call controls</li>
+                            <li><i class="fas fa-exclamation-triangle" style="color: #dc3545;"></i> Never answer unknown international numbers</li>
+                        </ul>
+                        <div class="image-container">
+                            <div style="height: 200px; background: linear-gradient(135deg, #25D366, #075E54); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white;">
+                                <i class="fas fa-video" style="font-size: 4rem; opacity: 0.5;"></i>
+                                <span style="font-size: 1.5rem; margin-left: 1rem;">Video Call</span>
+                            </div>
+                            <div class="image-caption">
+                                <i class="fas fa-phone"></i> Voice and video calling features
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Groups Card -->
+                <div class="guide-card fade-in delay-2">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h2>Groups</h2>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-text">
+                            Connect with multiple people in groups. Only admins can add members. Stay safe in public groups.
+                        </p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check-circle"></i> Create groups with up to 1024 members</li>
+                            <li><i class="fas fa-check-circle"></i> Group admins control who can add members</li>
+                            <li><i class="fas fa-check-circle"></i> Mute notifications for quiet groups</li>
+                            <li><i class="fas fa-check-circle"></i> Send broadcast messages to multiple contacts</li>
+                            <li><i class="fas fa-exclamation-triangle" style="color: #dc3545;"></i> Avoid sharing personal info in public groups</li>
+                        </ul>
+                        <div class="image-container">
+                            <div style="height: 200px; background: linear-gradient(135deg, #128C7E, #075E54); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white;">
+                                <i class="fas fa-users" style="font-size: 4rem; opacity: 0.5;"></i>
+                                <span style="font-size: 1.5rem; margin-left: 1rem;">Group Chat</span>
+                            </div>
+                            <div class="image-caption">
+                                <i class="fas fa-users"></i> Group chat management
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status & Stories Card -->
+                <div class="guide-card fade-in delay-3">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                        <h2>Status Updates</h2>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-text">
+                            Share photos, videos, and text that disappear after 24 hours. Control who can see your status.
+                        </p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check-circle"></i> Post photos and videos as status</li>
+                            <li><i class="fas fa-check-circle"></i> Text status updates with backgrounds</li>
+                            <li><i class="fas fa-check-circle"></i> Choose who can view your status</li>
+                            <li><i class="fas fa-check-circle"></i> See who viewed your status</li>
+                            <li><i class="fas fa-check-circle"></i> Reply privately to status updates</li>
+                        </ul>
+                        <div class="image-container">
+                            <div style="height: 200px; background: linear-gradient(135deg, #25D366, #128C7E); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white;">
+                                <i class="fas fa-circle" style="font-size: 4rem; opacity: 0.5;"></i>
+                                <span style="font-size: 1.5rem; margin-left: 1rem;">Status Updates</span>
+                            </div>
+                            <div class="image-caption">
+                                <i class="fas fa-circle"></i> 24-hour status feature
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Privacy Section -->
+            <div class="privacy-section fade-in">
+                <div class="privacy-header">
+                    <div class="privacy-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h2>Privacy & Security Settings</h2>
+                </div>
+                
+                <div class="privacy-grid">
+                    <div class="privacy-item">
+                        <div class="privacy-item-icon">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div class="privacy-item-content">
+                            <h4>Last Seen & Online</h4>
+                            <p>Control who can see your last seen status - everyone, contacts, or nobody.</p>
+                        </div>
+                    </div>
+
+                    <div class="privacy-item">
+                        <div class="privacy-item-icon">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        <div class="privacy-item-content">
+                            <h4>Profile Photo Privacy</h4>
+                            <p>Choose who can see your profile picture - everyone, contacts, or nobody.</p>
+                        </div>
+                    </div>
+
+                    <div class="privacy-item">
+                        <div class="privacy-item-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="privacy-item-content">
+                            <h4>About Information</h4>
+                            <p>Control who can see your "About" section and status information.</p>
+                        </div>
+                    </div>
+
+                    <div class="privacy-item">
+                        <div class="privacy-item-icon">
+                            <i class="fas fa-check-double"></i>
+                        </div>
+                        <div class="privacy-item-content">
+                            <h4>Read Receipts</h4>
+                            <p>Turn off blue ticks to hide when you've read messages (except in groups).</p>
+                        </div>
+                    </div>
+
+                    <div class="privacy-item">
+                        <div class="privacy-item-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="privacy-item-content">
+                            <h4>Two-Step Verification</h4>
+                            <p>Add extra security with a PIN required to register your number again.</p>
+                        </div>
+                    </div>
+
+                    <div class="privacy-item">
+                        <div class="privacy-item-icon">
+                            <i class="fas fa-ban"></i>
+                        </div>
+                        <div class="privacy-item-content">
+                            <h4>Block Contacts</h4>
+                            <p>Block spam numbers and unwanted contacts to stop messages and calls.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Tips Section -->
+            <div class="tips-section fade-in">
+                <h3 class="tips-title">Quick WhatsApp Tips</h3>
+                <p class="tips-text">
+                    • Pin important chats to the top for easy access<br>
+                    • Star important messages to find them later<br>
+                    • Use search to find messages, photos, or links<br>
+                    • Backup your chats to Google Drive to save history<br>
+                    • Enable fingerprint lock for extra security<br>
+                    • Use WhatsApp Web on your computer
+                </p>
+            </div>
+
+            <!-- Video Button Section -->
+            <div class="video-section fade-in">
+                <div class="video-btn-container">
+                    <button class="video-btn" id="videoBtn">
+                        <i class="fab fa-youtube"></i> Watch Detailed Tutorial
+                    </button>
+
+                    <div class="countdown-text" id="countdownText"></div>
+
+                    <div class="progress-container" id="progressContainer">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="main.html" class="footer-logo">
+                    <div class="footer-logo-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <span class="footer-logo-text">DigiSathi</span>
+                </a>
+                <p class="footer-description">
+                    Empowering rural India with digital literacy and safety education. 
+                    Making technology accessible, understandable, and safe for everyone.
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="footer-heading">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="main.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="startlearningfree.html"><i class="fas fa-chevron-right"></i> Learning Modules</a></li>
+                    <li><a href="cof.html"><i class="fas fa-chevron-right"></i> Common Frauds</a></li>
+                    <li><a href="f.html"><i class="fas fa-chevron-right"></i> Advanced Courses</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="footer-heading">App Guides</h3>
+                <ul class="footer-links">
+                    <li><a href="youtube.html"><i class="fab fa-youtube"></i> YouTube Guide</a></li>
+                    <li><a href="useWA.html"><i class="fab fa-whatsapp"></i> WhatsApp Guide</a></li>
+                    <li><a href="LearnPA.html"><i class="fas fa-mobile-alt"></i> All App Guides</a></li>
+                    <li><a href="msgsafety.html"><i class="fas fa-comments"></i> Messaging Safety</a></li>
+                    <li><a href="privacysettings.html"><i class="fas fa-lock"></i> Privacy Settings</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="footer-heading">Help & Support</h3>
+                <ul class="footer-links">
+                    <li><a href="mailto:support@digisathi.org"><i class="fas fa-envelope"></i> support@digisathi.org</a></li>
+                    <li><a href="tel:+911800123456"><i class="fas fa-phone"></i> Helpline: 1800-123-456</a></li>
+                    <li><a href="#"><i class="fas fa-question-circle"></i> Safety Help</a></li>
+                    <li><a href="#"><i class="fas fa-life-ring"></i> Quick Guide</a></li>
+                    <li><a href="#"><i class="fas fa-download"></i> Download PDF</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="copyright">
+                © 2024 DigiSathi. All rights reserved. Stay Safe on WhatsApp.
+            </div>
+            <div class="footer-legal">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Security Policy</a>
+                <a href="#">Report Abuse</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll To Top Button -->
+    <button class="scroll-top-btn" id="scrollTopBtn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // Scroll button visibility
+        const scrollBtn = document.getElementById("scrollTopBtn");
+        window.addEventListener("scroll", function() {
+            scrollBtn.style.display = window.scrollY > 200 ? "flex" : "none";
+        });
+
+        scrollBtn.addEventListener("click", function() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+
+        // Hover Redirect Functionality
+        const button = document.getElementById("videoBtn");
+        const countdownText = document.getElementById("countdownText");
+        const progressBar = document.getElementById("progressBar");
+        const progressContainer = document.getElementById("progressContainer");
+
+        let timeLeft;
+        let interval;
+
+        button.addEventListener("mouseenter", () => {
+            timeLeft = 5;
+            countdownText.style.display = "block";
+            progressContainer.style.display = "block";
+            progressBar.style.width = "0%";
+            countdownText.textContent = `Redirecting in ${timeLeft} seconds...`;
+
+            interval = setInterval(() => {
+                timeLeft--;
+                progressBar.style.width = ((5 - timeLeft) / 5) * 100 + "%";
+                countdownText.textContent = `Redirecting in ${timeLeft} seconds...`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(interval);
+                    window.location.href = "https://www.youtube.com/watch?v=d3VWmsb0ZXA&t=509s";
+                }
+            }, 1000);
+        });
+
+        button.addEventListener("mouseleave", () => {
+            clearInterval(interval);
+            countdownText.style.display = "none";
+            progressContainer.style.display = "none";
+            progressBar.style.width = "0%";
+        });
+
+        // Fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all guide cards and sections
+        document.querySelectorAll('.guide-card, .privacy-section, .tips-section, .video-section').forEach((el) => observer.observe(el));
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

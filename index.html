@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuardLine | Phone Risk Checker</title>
+    <style>
+        :root {
+            --primary: #4361ee; --secondary: #3a0ca3; --accent: #f72585; --success: #4cc9f0;
+            --warning: #f8961e; --light: #f8f9fa; --dark: #212529; --gray: #6c757d; --white: #ffffff;
+            --blue-grad: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            --pink-grad: linear-gradient(135deg, #f72585 0%, #7209b7 100%);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background: linear-gradient(180deg, #ffffff 0%, #f8f9ff 100%); min-height: 100vh; padding: 2rem 1rem; display: flex; justify-content: center; }
+        .container { max-width: 550px; width: 100%; }
+        header { text-align: center; margin-bottom: 2rem; }
+        header h1 { font-size: 2.8rem; background: var(--blue-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
+        header h1 span { color: var(--accent); -webkit-text-fill-color: var(--accent); }
+        .stats-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+        .stat-item { background: var(--white); padding: 1.2rem; border-radius: 16px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .stat-item span { display: block; font-size: 1.8rem; font-weight: 800; color: var(--primary); width: 500px; }
+        .stat-item label { font-size: 0.7rem; color: var(--gray); text-transform: uppercase; font-weight: 700; }
+        .checker-card { background: var(--white); padding: 2rem; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+        .input-group { display: flex; flex-direction: column; gap: 1rem; }
+        input, select, textarea { padding: 1rem; border: 2px solid #edf2f7; border-radius: 12px; width: 100%; font-size: 1rem; }
+        .btn-primary { background: var(--blue-grad); color: white; border: none; padding: 1rem; border-radius: 12px; font-weight: 700; cursor: pointer; }
+        .btn-accent { background: var(--pink-grad); color: white; border: none; padding: 1rem; border-radius: 12px; font-weight: 600; cursor: pointer; }
+        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
+        .btn-info { background: white; color: var(--primary); border: 2px solid var(--primary); padding: 1rem; border-radius: 12px; font-weight: 600; cursor: pointer; }
+        .recent-reports-card { background: var(--white); padding: 1.5rem; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); margin-top: 2rem; }
+        .report-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+        .report-phone { font-weight: 700; color: var(--secondary); }
+        .report-tag { font-size: 0.7rem; background: #fff0f6; color: var(--accent); padding: 4px 10px; border-radius: 20px; font-weight: 700; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: none; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-content { background: white; width: 90%; max-width: 450px; padding: 2rem; border-radius: 24px; position: relative; }
+        .info-card { background: white; border-left: 6px solid var(--primary); padding: 1.5rem; margin-top: 1.5rem; border-radius: 16px; display: none; }
+        footer { margin-top: 2rem; text-align: center; padding-bottom: 2rem; }
+        .btn-home { background: var(--dark); color: white; border: none; padding: 0.8rem 1.8rem; border-radius: 50px; cursor: pointer; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header><h1>Guard<span>Line</span></h1><p>Community Scam Protection</p></header>
+        <div class="stats-bar">
+            <div class="stat-item"><span id="stat-tracked">0</span><label>Verified</label></div>
+            
+        </div>
+        <main class="checker-card">
+            <div class="input-group">
+                <input type="tel" id="phoneCheck" placeholder="Enter number...">
+                <button onclick="handleCheck()" class="btn-primary">Scan Number</button>
+            </div>
+            <div id="result" style="margin-top:1rem; display:none; padding:1rem; border-radius:10px; text-align:center;"></div>
+            <div class="action-grid">
+                <button class="btn-accent" onclick="toggleModal(true)">Report Scam</button>
+                <button class="btn-info" onclick="toggleLearnMore()">Learn More</button>
+            </div>
+        </main>
+        <div id="learnMoreBox" class="info-card">
+            <h3>🛡️ Security Tips</h3>
+            <p style="font-size:0.9rem; color:var(--gray); margin-top:10px;">• Never share OTPs.<br>• Ignore "Urgent" payment threats.<br>• Block unknown international callers.</p>
+        </div>
+        <div class="recent-reports-card">
+            <h3 style="margin-bottom:1rem; color:var(--primary);">🚩 Recent Feed</h3>
+            <div id="reportsList"></div>
+        </div>
+        <footer><button class="btn-home" onclick="location.href='f.html'">🏠 Home</button></footer>
+    </div>
+
+    <div id="reportModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 style="margin-bottom:1rem;">Report Scam</h2>
+            <form id="scamForm" onsubmit="submitReport(event)">
+                <input type="tel" id="reportPhone" placeholder="Number" required style="margin-bottom:1rem;">
+                <select id="reportCategory" style="margin-bottom:1rem;">
+                    <option value="fraud">Fraud</option><option value="spam">Spam</option><option value="impersonation">Impersonation</option>
+                </select>
+                <textarea id="reportDesc" placeholder="Description" style="margin-bottom:1rem;"></textarea>
+                <button type="submit" class="btn-accent" style="width:100%">Submit</button>
+                <button type="button" onclick="toggleModal(false)" style="width:100%; border:none; background:none; margin-top:10px; cursor:pointer; color:var(--gray);">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API = "http://127.0.0.1:5005/api";
+        async function loadStats() {
+            const r = await fetch(`${API}/stats`); const d = await r.json();
+            document.getElementById('stat-tracked').innerText = d.total_tracked;
+            document.getElementById('stat-reports').innerText = d.high_risk_numbers;
+        }
+        async function loadFeed() {
+            const r = await fetch(`${API}/recent-reports`); const d = await r.json();
+            const list = document.getElementById('reportsList'); list.innerHTML = '';
+            d.forEach(f => {
+                list.innerHTML += `<div class="report-item"><div class="report-phone">${f.phone}<br><small style="color:gray">${f.time}</small></div><span class="report-tag">${f.category.toUpperCase()}</span></div>`;
+            });
+        }
+        async function handleCheck() {
+            const p = document.getElementById('phoneCheck').value;
+            const res = document.getElementById('result');
+            res.style.display="block"; res.innerHTML="Scanning...";
+            const r = await fetch(`${API}/check-number`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({phone:p})});
+            const d = await r.json();
+            res.style.background = d.risk.color + "22"; res.style.color = d.risk.color;
+            res.innerHTML = `<strong>${d.risk.level} RISK</strong><br>${d.message}`;
+        }
+        async function submitReport(e) {
+            e.preventDefault();
+            const p = {phone:document.getElementById('reportPhone').value, category:document.getElementById('reportCategory').value, description:document.getElementById('reportDesc').value};
+            await fetch(`${API}/report-number`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(p)});
+            alert("Success!"); toggleModal(false); loadStats(); loadFeed();
+        }
+        function toggleModal(s) { document.getElementById('reportModal').style.display = s ? 'flex' : 'none'; }
+        function toggleLearnMore() { const b = document.getElementById('learnMoreBox'); b.style.display = b.style.display === 'block' ? 'none' : 'block'; }
+        window.onload = () => { loadStats(); loadFeed(); };
+    </script>
+</body>
+</html>

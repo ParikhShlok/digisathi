@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Learn Digital Apps - DigiSathi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --danger: #ff0000;
+            --success: #25d366;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --gradient-primary: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            --gradient-youtube: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+            --gradient-whatsapp: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+            --shadow-sm: 0 4px 6px rgba(0,0,0,0.07);
+            --shadow-md: 0 10px 20px rgba(0,0,0,0.1);
+            --shadow-lg: 0 20px 40px rgba(0,0,0,0.15);
+            --radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            line-height: 1.7;
+            background: linear-gradient(180deg, #ffffff 0%, #f8f9ff 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+        }
+
+        /* Navigation */
+        .navbar-custom {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(67, 97, 238, 0.1);
+        }
+
+        .navbar-custom .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .logo:hover .logo-icon {
+            transform: rotate(-10deg) scale(1.05);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+            background: rgba(67, 97, 238, 0.08);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        /* Header Section */
+        .header-section {
+            text-align: center;
+            padding: 6rem 1.5rem 4rem;
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.05) 0%, rgba(248, 249, 250, 0.1) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: rgba(67, 97, 238, 0.03);
+            border-radius: 50%;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background: var(--gradient-primary);
+            color: white;
+            padding: 0.6rem 1.8rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            color: var(--gray);
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Apps Section */
+        .apps-section {
+            padding: 4rem 1.5rem;
+            flex: 1;
+        }
+
+        .apps-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .apps-intro {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 0 1rem;
+        }
+
+        .apps-intro h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .apps-intro p {
+            color: var(--gray);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        /* App Cards */
+        .app-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .app-card {
+            display: block;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(67, 97, 238, 0.1);
+        }
+
+        .app-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .app-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            transition: var(--transition);
+        }
+
+        .app-card.youtube::before {
+            background: var(--gradient-youtube);
+        }
+
+        .app-card.whatsapp::before {
+            background: var(--gradient-whatsapp);
+        }
+
+        .app-card:hover::before {
+            height: 8px;
+        }
+
+        .app-card-content {
+            padding: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .app-card-content {
+                flex-direction: column;
+                text-align: center;
+                padding: 2rem;
+            }
+        }
+
+        .app-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .app-icon.youtube {
+            background: var(--gradient-youtube);
+        }
+
+        .app-icon.whatsapp {
+            background: var(--gradient-whatsapp);
+        }
+
+        .app-info {
+            flex: 1;
+        }
+
+        .app-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .app-card.youtube .app-title {
+            color: #ff0000;
+        }
+
+        .app-card.whatsapp .app-title {
+            color: #25d366;
+        }
+
+        .app-description {
+            color: var(--gray);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .app-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-tag {
+            background: rgba(67, 97, 238, 0.08);
+            color: var(--primary);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .app-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: var(--dark);
+            transition: var(--transition);
+        }
+
+        .app-card:hover .app-action {
+            gap: 15px;
+        }
+
+        /* Coming Soon Section */
+        .coming-soon {
+            background: rgba(67, 97, 238, 0.05);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+            border: 2px dashed rgba(67, 97, 238, 0.2);
+        }
+
+        .coming-soon h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .coming-soon p {
+            color: var(--gray);
+            margin-bottom: 0;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 5rem 1.5rem 2rem;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            max-width: 300px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+            text-decoration: none;
+        }
+
+        .footer-logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .footer-logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .footer-description {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-heading {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .copyright {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-legal a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .footer-legal a:hover {
+            color: white;
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                color: var(--dark);
+                cursor: pointer;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-legal {
+                justify-content: center;
+            }
+        }
+    </style>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,hi,gu,fr,es',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</head>
+<body>
+    <!-- Google Translate Widget -->
+    <div style="position: fixed; top: 20px; right: 20px; z-index: 9999; background: white; padding: 10px; border-radius: 8px; box-shadow: var(--shadow-md);">
+        <div id="google_translate_element"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar-custom">
+        <div class="container">
+            <a href="main.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <span class="logo-text">DigiSathi</span>
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="main.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="f.html" class="nav-link"><i class="fas fa-graduation-cap"></i> Advanced Learning</a></li>
+                <li><a href="#" class="nav-link active"><i class="fas fa-mobile-alt"></i> Learn Apps</a></li>
+            </ul>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button><pre>  </pre>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <section class="header-section">
+        <div class="container">
+            <div class="section-badge fade-in">
+                <i class="fas fa-graduation-cap"></i> Master Popular Apps
+            </div>
+            
+            <h1 class="section-title fade-in delay-1">
+                Learn Digital Apps
+            </h1>
+
+            <p class="section-subtitle fade-in delay-1">
+                Step-by-step guides to master essential apps for communication,
+                entertainment, and daily life. Learn at your own pace.
+            </p>
+        </div>
+    </section>
+
+    <!-- Apps Section -->
+    <section class="apps-section">
+        <div class="apps-container">
+            <div class="apps-intro fade-in">
+                <h2>Choose What You Want to Learn Today</h2>
+                <p>Each course is designed for beginners with simple, practical lessons.</p>
+            </div>
+
+            <div class="app-cards">
+                <!-- YouTube Card -->
+                <a href="youtube.html" class="app-card youtube fade-in">
+                    <div class="app-card-content">
+                        <div class="app-icon youtube">
+                            <i class="fab fa-youtube"></i>
+                        </div>
+                        <div class="app-info">
+                            <h3 class="app-title">Learn YouTube</h3>
+                            <p class="app-description">
+                                Master YouTube from basics to advanced features. Learn how to search videos,
+                                create playlists, manage subscriptions, and use YouTube safely.
+                            </p>
+                            <div class="app-features">
+                                <span class="feature-tag">Video Search</span>
+                                <span class="feature-tag">Playlists</span>
+                                <span class="feature-tag">Subscriptions</span>
+                                <span class="feature-tag">Safety Tips</span>
+                            </div>
+                            <div class="app-action">
+                                Start Learning <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- WhatsApp Card -->
+                <a href="useWA.html" class="app-card whatsapp fade-in delay-1">
+                    <div class="app-card-content">
+                        <div class="app-icon whatsapp">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div class="app-info">
+                            <h3 class="app-title">Learn WhatsApp</h3>
+                            <p class="app-description">
+                                Learn WhatsApp messaging, calls, groups, and privacy settings.
+                                Stay safe from scams and use WhatsApp effectively for communication.
+                            </p>
+                            <div class="app-features">
+                                <span class="feature-tag">Messaging</span>
+                                <span class="feature-tag">Voice/Video Calls</span>
+                                <span class="feature-tag">Groups</span>
+                                <span class="feature-tag">Privacy Settings</span>
+                            </div>
+                            <div class="app-action">
+                                Start Learning <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Coming Soon -->
+            <div class="coming-soon fade-in delay-2">
+                <h3><i class="fas fa-clock"></i> More Apps Coming Soon</h3>
+                <p>We're working on guides for Facebook, Google Pay, and other essential apps.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="main.html" class="footer-logo">
+                    <div class="footer-logo-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <span class="footer-logo-text">DigiSathi</span>
+                </a>
+                <p class="footer-description">
+                    Empowering rural India with digital literacy and safety education. 
+                    Making technology accessible, understandable, and safe for everyone.
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="footer-heading">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="main.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="startlearningfree.html"><i class="fas fa-chevron-right"></i> Learning Modules</a></li>
+                    <li><a href="cof.html"><i class="fas fa-chevron-right"></i> Common Frauds</a></li>
+                    <li><a href="f.html"><i class="fas fa-chevron-right"></i> Advanced Courses</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="footer-heading">App Learning</h3>
+                <ul class="footer-links">
+                    <li><a href="youtube.html"><i class="fab fa-youtube"></i> YouTube Guide</a></li>
+                    <li><a href="useWA.html"><i class="fab fa-whatsapp"></i> WhatsApp Guide</a></li>
+                    <li><a href="LearnPA.html"><i class="fas fa-mobile-alt"></i> All Apps</a></li>
+                    <li><a href="privacysettings.html"><i class="fas fa-lock"></i> Privacy Settings</a></li>
+                    <li><a href="msgsafety.html"><i class="fas fa-comments"></i> Messaging Safety</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="footer-heading">Contact & Support</h3>
+                <ul class="footer-links">
+                    <li><a href="mailto:support@digisathi.org"><i class="fas fa-envelope"></i> support@digisathi.org</a></li>
+                    <li><a href="tel:+911800123456"><i class="fas fa-phone"></i> Helpline: 1800-123-456</a></li>
+                    <li><a href="#"><i class="fas fa-question-circle"></i> App Help Center</a></li>
+                    <li><a href="#"><i class="fas fa-comments"></i> Community Forum</a></li>
+                    <li><a href="#"><i class="fas fa-download"></i> App Guides PDF</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="copyright">
+                © 2024 DigiSathi. All rights reserved. Master Digital Apps.
+            </div>
+            <div class="footer-legal">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Cookie Policy</a>
+                <a href="#">Accessibility</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // Fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all app cards
+        document.querySelectorAll('.app-card, .apps-intro, .coming-soon').forEach((el) => observer.observe(el));
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

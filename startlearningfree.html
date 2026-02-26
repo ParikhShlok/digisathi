@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Smartphone User Guide - DigiSathi</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --primary: #4361ee;
+    --secondary: #3a0ca3;
+    --accent: #f72585;
+    --success: #4cc9f0;
+    --warning: #f8961e;
+    --light: #f8f9fa;
+    --dark: #212529;
+    --gray: #6c757d;
+    --gradient-primary: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+    --gradient-accent: linear-gradient(135deg, #f72585 0%, #7209b7 100%);
+    --gradient-success: linear-gradient(135deg, #4cc9f0 0%, #00b4d8 100%);
+    --shadow-sm: 0 4px 6px rgba(0,0,0,0.07);
+    --shadow-md: 0 10px 20px rgba(0,0,0,0.1);
+    --shadow-lg: 0 20px 40px rgba(0,0,0,0.15);
+    --radius: 16px;
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    color: var(--dark);
+    line-height: 1.7;
+    background: linear-gradient(180deg, #ffffff 0%, #f8f9ff 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary);
+  }
+
+  /* Google Translate */
+  .translate-wrapper {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    background: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+  }
+
+  /* NAVBAR */
+  .navbar-custom {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1rem 0;
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(67, 97, 238, 0.1);
+  }
+
+  .navbar-custom .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--gradient-primary);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 800;
+    color: white;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+  }
+
+  .logo:hover .logo-icon {
+    transform: rotate(-10deg) scale(1.05);
+  }
+
+  .logo-text {
+    font-size: 1.5rem;
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-link {
+    color: var(--dark);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: var(--transition);
+    position: relative;
+  }
+
+  .nav-link:hover {
+    color: var(--primary);
+    background: rgba(67, 97, 238, 0.08);
+  }
+
+  .nav-link.active {
+    color: var(--primary);
+    background: rgba(67, 97, 238, 0.1);
+  }
+
+  .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  .mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--dark);
+    cursor: pointer;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    text-align: center;
+    padding: 6rem 1.5rem 4rem;
+    background: linear-gradient(135deg, rgba(67, 97, 238, 0.05) 0%, rgba(248, 249, 250, 0.1) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    background: rgba(67, 97, 238, 0.03);
+    border-radius: 50%;
+  }
+
+  .section-badge {
+    display: inline-block;
+    background: var(--gradient-primary);
+    color: white;
+    padding: 0.6rem 1.8rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  .hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-subtitle {
+    color: var(--gray);
+    font-size: 1.25rem;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  /* MAIN CONTENT */
+  .guide-section {
+    padding: 4rem 1.5rem;
+    flex: 1;
+  }
+
+  .container-main {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .intro {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .intro h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--dark);
+  }
+
+  .intro p {
+    color: var(--gray);
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  /* Step Cards */
+  .step-card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    padding: 2rem;
+    margin-bottom: 3rem;
+    border: 1px solid rgba(67, 97, 238, 0.1);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .step-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: var(--gradient-primary);
+    transition: var(--transition);
+  }
+
+  .step-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .step-card:hover::before {
+    width: 8px;
+  }
+
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .step-number {
+    width: 50px;
+    height: 50px;
+    background: var(--gradient-primary);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 1.5rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  .step-header h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--dark);
+  }
+
+  .step-content {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  @media (max-width: 768px) {
+    .step-content {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+
+  .step-text {
+    flex: 1;
+  }
+
+  .step-text p {
+    color: var(--gray);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+
+  .step-text ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .step-text li {
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    color: var(--gray);
+  }
+
+  .step-text li i {
+    color: var(--primary);
+    font-size: 1.1rem;
+    margin-top: 0.3rem;
+    flex-shrink: 0;
+  }
+
+  .step-image {
+    flex: 1;
+    max-width: 400px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(67, 97, 238, 0.1);
+    transition: var(--transition);
+  }
+
+  .step-image:hover {
+    transform: scale(1.02);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .step-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .image-caption {
+    padding: 1rem;
+    background: var(--light);
+    text-align: center;
+    color: var(--gray);
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(67, 97, 238, 0.1);
+  }
+
+  .image-caption i {
+    color: var(--primary);
+    margin-right: 0.5rem;
+  }
+
+  /* Note Banner */
+  .note-banner {
+    background: var(--gradient-accent);
+    color: white;
+    padding: 3rem;
+    border-radius: var(--radius);
+    margin: 4rem auto;
+    max-width: 800px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+
+  .note-banner::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+  }
+
+  .note-banner h4 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .note-banner p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    line-height: 1.8;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Quick Tips Section */
+  .tips-section {
+    background: var(--gradient-success);
+    color: white;
+    padding: 3rem;
+    border-radius: var(--radius);
+    margin: 4rem auto;
+    max-width: 800px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+
+  .tips-section::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    left: -50px;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+  }
+
+  .tips-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    text-align: left;
+  }
+
+  .tip-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.2rem;
+    border-radius: var(--radius);
+    transition: var(--transition);
+  }
+
+  .tip-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateX(5px);
+  }
+
+  .tip-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .tip-content h5 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+
+  .tip-content p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* FOOTER */
+  .footer {
+    background: var(--dark);
+    color: white;
+    padding: 5rem 1.5rem 2rem;
+    margin-top: auto;
+  }
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer-brand {
+    max-width: 300px;
+  }
+
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+    text-decoration: none;
+  }
+
+  .footer-logo-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--gradient-primary);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: white;
+  }
+
+  .footer-logo-text {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: white;
+  }
+
+  .footer-description {
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .social-link {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: var(--transition);
+  }
+
+  .social-link:hover {
+    background: var(--primary);
+    transform: translateY(-3px);
+  }
+
+  .footer-heading {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: white;
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-links li {
+    margin-bottom: 0.8rem;
+  }
+
+  .footer-links a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .footer-links a:hover {
+    color: white;
+    padding-left: 5px;
+  }
+
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .copyright {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+  }
+
+  .footer-legal {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .footer-legal a {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: var(--transition);
+  }
+
+  .footer-legal a:hover {
+    color: white;
+  }
+
+  /* SCROLL BUTTON */
+  .scroll-top-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    z-index: 9999;
+  }
+
+  .scroll-top-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Animation Classes */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.6s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .delay-1 { animation-delay: 0.2s; }
+  .delay-2 { animation-delay: 0.4s; }
+  .delay-3 { animation-delay: 0.6s; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+    
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 80px;
+      right: 20px;
+      background: white;
+      padding: 1rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      flex-direction: column;
+      min-width: 200px;
+    }
+    
+    .nav-links.show {
+      display: flex;
+    }
+    
+    .mobile-menu-btn {
+      display: block;
+    }
+    
+    .footer-bottom {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .footer-legal {
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,hi,gu,ta,te,kn,mr'
+  }, 'google_translate_element');
+}
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</head>
+
+<body>
+
+<div class="translate-wrapper" id="google_translate_element"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar-custom">
+    <div class="container">
+        <a href="main.html" class="logo">
+            <div class="logo-icon"><i class="fas fa-shield-alt"></i></div>
+            <span class="logo-text">DigiSathi</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="main.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a></li>
+            <li><a href="f.html" class="nav-link"><i class="fas fa-graduation-cap"></i> Advanced</a></li>
+            <li><a href="cof.html" class="nav-link"><i class="fas fa-exclamation-triangle"></i> Scam Checker</a></li>
+            <li><a href="howtouseyouphone.html" class="nav-link active"><i class="fas fa-mobile-alt"></i> Phone Guide</a></li>
+        </ul>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button><pre>  </pre>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="section-badge fade-in">
+            <i class="fas fa-mobile-alt"></i> Essential Guide
+        </div>
+        
+        <h1 class="hero-title fade-in delay-1">
+            Smartphone User Guide
+        </h1>
+
+        <p class="hero-subtitle fade-in delay-1">
+            Learn how to change language, manage phone settings, and use your smartphone effectively.
+            Simple step-by-step instructions for first-time users.
+        </p>
+    </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<section class="guide-section">
+    <div class="container-main">
+        <div class="intro fade-in">
+            <h2>Change Phone Language</h2>
+            <p>Follow these simple steps to change the language on your smartphone. The exact names may vary slightly by phone model.</p>
+        </div>
+
+        <!-- Step 1 -->
+        <div class="step-card fade-in">
+            <div class="step-header">
+                <div class="step-number">1</div>
+                <h3>Open Settings</h3>
+            </div>
+            <div class="step-content">
+                <div class="step-text">
+                    <p>Locate and tap the <strong>Settings</strong> icon on your phone. It looks like a gear ⚙️ icon and is usually found on the home screen or in the app drawer.</p>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Settings icon is usually gray or blue</li>
+                        <li><i class="fas fa-check-circle"></i> Can be on home screen or in apps list</li>
+                        <li><i class="fas fa-check-circle"></i> Swipe down from top to quick access</li>
+                    </ul>
+                </div>
+                <div class="step-image">
+                    <img src="openart-image_qYKxrmqB_1771008380416_raw.jpg" alt="Settings Icon">
+                    <div class="image-caption">
+                        <i class="fas fa-cog"></i> Settings app icon
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-card fade-in delay-1">
+            <div class="step-header">
+                <div class="step-number">2</div>
+                <h3>Select Additional Settings</h3>
+            </div>
+            <div class="step-content">
+                <div class="step-text">
+                    <p>Scroll down and tap on <strong>Additional Settings</strong>. On some phones, this might be called "System" or "General Management".</p>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Look near the bottom of settings</li>
+                        <li><i class="fas fa-check-circle"></i> May be under "System" on some phones</li>
+                        <li><i class="fas fa-check-circle"></i> Samsung phones call it "General Management"</li>
+                    </ul>
+                </div>
+                <div class="step-image">
+                    <img src="as.jpeg" alt="Additional Settings">
+                    <div class="image-caption">
+                        <i class="fas fa-sliders-h"></i> Additional Settings menu
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-card fade-in delay-2">
+            <div class="step-header">
+                <div class="step-number">3</div>
+                <h3>Select Language & Input</h3>
+            </div>
+            <div class="step-content">
+                <div class="step-text">
+                    <p>Find and select the <strong>Language and Input</strong> option. This controls your phone's display language and keyboard settings.</p>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> May be called "Language & Keyboard"</li>
+                        <li><i class="fas fa-check-circle"></i> Contains language and typing options</li>
+                        <li><i class="fas fa-check-circle"></i> Tap to enter language settings</li>
+                    </ul>
+                </div>
+                <div class="step-image">
+                    <img src="li.jpeg" alt="Language and Input">
+                    <div class="image-caption">
+                        <i class="fas fa-language"></i> Language & Input menu
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step-card fade-in delay-3">
+            <div class="step-header">
+                <div class="step-number">4</div>
+                <h3>Select Languages</h3>
+            </div>
+            <div class="step-content">
+                <div class="step-text">
+                    <p>Tap on <strong>Languages</strong> to view all available language options for your phone's interface.</p>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Shows list of all available languages</li>
+                        <li><i class="fas fa-check-circle"></i> Current language is highlighted</li>
+                        <li><i class="fas fa-check-circle"></i> Tap "Add Language" if needed</li>
+                    </ul>
+                </div>
+                <div class="step-image">
+                    <img src="li2.jpeg" alt="Languages Menu">
+                    <div class="image-caption">
+                        <i class="fas fa-globe"></i> Language selection screen
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="step-card fade-in">
+            <div class="step-header">
+                <div class="step-number">5</div>
+                <h3>Choose Your Language</h3>
+            </div>
+            <div class="step-content">
+                <div class="step-text">
+                    <p>Search or scroll to find your preferred language and tap on it. The phone will immediately switch to the new language.</p>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Hindi - हिन्दी</li>
+                        <li><i class="fas fa-check-circle"></i> Gujarati - ગુજરાતી</li>
+                        <li><i class="fas fa-check-circle"></i> Tamil - தமிழ்</li>
+                        <li><i class="fas fa-check-circle"></i> Telugu - తెలుగు</li>
+                        <li><i class="fas fa-check-circle"></i> Marathi - मराठी</li>
+                    </ul>
+                </div>
+                <div class="step-image">
+                    <img src="lang.jpeg" alt="Language Selection">
+                    <div class="image-caption">
+                        <i class="fas fa-check-circle"></i> Select your preferred language
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Note Banner -->
+        <div class="note-banner fade-in">
+            <h4>📱 Important Note</h4>
+            <p>The layout and exact menu names may be different on your phone model, but the steps and options will be similar. Look for these key terms.</p>
+        </div>
+
+        <!-- Quick Tips Section -->
+        <div class="tips-section fade-in">
+            <h3 class="tips-title">💡 Smartphone Quick Tips</h3>
+            <div class="tips-grid">
+                <div class="tip-item">
+                    <div class="tip-icon">
+                        <i class="fas fa-battery-three-quarters"></i>
+                    </div>
+                    <div class="tip-content">
+                        <h5>Save Battery</h5>
+                        <p>Lower screen brightness and turn off WiFi when not in use</p>
+                    </div>
+                </div>
+
+                <div class="tip-item">
+                    <div class="tip-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="tip-content">
+                        <h5>Security</h5>
+                        <p>Use fingerprint or PIN to lock your phone</p>
+                    </div>
+                </div>
+
+                <div class="tip-item">
+                    <div class="tip-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="tip-content">
+                        <h5>Backup</h5>
+                        <p>Save contacts to Google account to never lose them</p>
+                    </div>
+                </div>
+
+                <div class="tip-item">
+                    <div class="tip-icon">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <div class="tip-content">
+                        <h5>Mobile Data</h5>
+                        <p>Turn off mobile data when using WiFi to save data</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-brand">
+            <a href="main.html" class="footer-logo">
+                <div class="footer-logo-icon"><i class="fas fa-shield-alt"></i></div>
+                <span class="footer-logo-text">DigiSathi</span>
+            </a>
+            <p class="footer-description">Empowering rural India with digital literacy and safety education. Making technology accessible, understandable, and safe for everyone.</p>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+
+        <div>
+            <h3 class="footer-heading">Quick Links</h3>
+            <ul class="footer-links">
+                <li><a href="main.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                <li><a href="about.html"><i class="fas fa-chevron-right"></i> About</a></li>
+                <li><a href="startlearningfree.html"><i class="fas fa-chevron-right"></i> Learning Modules</a></li>
+                <li><a href="cof.html"><i class="fas fa-chevron-right"></i> Fraud Detection</a></li>
+                <li><a href="f.html"><i class="fas fa-chevron-right"></i> Advanced Courses</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h3 class="footer-heading">Phone Guides</h3>
+            <ul class="footer-links">
+                <li><a href="howtouseyouphone.html"><i class="fas fa-mobile-alt"></i> Smartphone Basics</a></li>
+                <li><a href="Basicinternetsafety.html"><i class="fas fa-globe"></i> Internet Safety</a></li>
+                <li><a href="privacysettings.html"><i class="fas fa-lock"></i> Privacy Settings</a></li>
+                <li><a href="usepass.html"><i class="fas fa-key"></i> Password Security</a></li>
+                <li><a href="msgsafety.html"><i class="fas fa-comments"></i> Messaging Safety</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h3 class="footer-heading">Contact</h3>
+            <ul class="footer-links">
+                <li><a href="mailto:support@digisathi.org"><i class="fas fa-envelope"></i> support@digisathi.org</a></li>
+                <li><a href="tel:+911800123456"><i class="fas fa-phone"></i> Helpline: 1800-123-456</a></li>
+                <li><a href="#"><i class="fas fa-question-circle"></i> Help Center</a></li>
+                <li><a href="#"><i class="fas fa-life-ring"></i> Support</a></li>
+                <li><a href="#"><i class="fas fa-download"></i> Guide PDF</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <div class="copyright">© 2024 DigiSathi. All rights reserved. Master Your Smartphone.</div>
+        <div class="footer-legal">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Cookie Policy</a>
+            <a href="#">Accessibility</a>
+        </div>
+    </div>
+</footer>
+
+<!-- SCROLL BUTTON -->
+<button class="scroll-top-btn" id="scrollTopBtn">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<script>
+// Mobile menu toggle
+document.querySelector('.mobile-menu-btn').addEventListener('click', function(){
+    const nav = document.querySelector('.nav-links');
+    nav.classList.toggle('show');
+});
+
+// Scroll button visibility
+const scrollBtn = document.getElementById("scrollTopBtn");
+
+window.addEventListener("scroll", function() {
+    if (window.scrollY > 300) {
+        scrollBtn.style.display = "flex";
+    } else {
+        scrollBtn.style.display = "none";
+    }
+});
+
+scrollBtn.addEventListener("click", function() {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+});
+
+// Fade-in animation on scroll
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('fade-in');
+        }
+    });
+}, observerOptions);
+
+// Observe all step cards and sections
+document.querySelectorAll('.step-card, .note-banner, .tips-section, .intro').forEach((el) => observer.observe(el));
+
+// Smooth scrolling for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+            window.scrollTo({
+                top: targetElement.offsetTop - 80,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+</script>
+
+</body>
+</html>

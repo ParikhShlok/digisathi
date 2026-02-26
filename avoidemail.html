@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Avoid Unknown Emails - DigiSathi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --warning: #f8961e;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --gradient-primary: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            --gradient-warning: linear-gradient(135deg, #f8961e 0%, #d47c0c 100%);
+            --gradient-danger: linear-gradient(135deg, #dc3545 0%, #b02a37 100%);
+            --shadow-sm: 0 4px 6px rgba(0,0,0,0.07);
+            --shadow-md: 0 10px 20px rgba(0,0,0,0.1);
+            --shadow-lg: 0 20px 40px rgba(0,0,0,0.15);
+            --radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            line-height: 1.7;
+            background: linear-gradient(180deg, #ffffff 0%, #f8f9ff 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+        }
+
+        /* Navigation */
+        .navbar-custom {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(67, 97, 238, 0.1);
+        }
+
+        .navbar-custom .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .logo:hover .logo-icon {
+            transform: rotate(-10deg) scale(1.05);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+            background: rgba(67, 97, 238, 0.08);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        /* Header Section */
+        .header-section {
+            text-align: center;
+            padding: 6rem 1.5rem 4rem;
+            background: linear-gradient(135deg, rgba(248, 150, 30, 0.05) 0%, rgba(248, 249, 250, 0.1) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: rgba(248, 150, 30, 0.03);
+            border-radius: 50%;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background: var(--gradient-warning);
+            color: white;
+            padding: 0.6rem 1.8rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--warning) 0%, var(--dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            color: var(--gray);
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Email Safety Content */
+        .email-safety-section {
+            padding: 4rem 1.5rem;
+            flex: 1;
+        }
+
+        .email-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Warning Banner */
+        .warning-banner {
+            background: var(--gradient-warning);
+            color: white;
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .warning-banner::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .warning-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .warning-text {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Safety List */
+        .safety-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .safety-list-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 2rem;
+            background: white;
+            border-radius: var(--radius);
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(67, 97, 238, 0.1);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .safety-list-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--gradient-warning);
+            transition: var(--transition);
+        }
+
+        .safety-list-item:hover {
+            transform: translateX(10px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .safety-list-item:hover::before {
+            width: 8px;
+        }
+
+        .list-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(248, 150, 30, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--warning);
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .safety-list-item:hover .list-icon {
+            transform: scale(1.1);
+            background: rgba(248, 150, 30, 0.15);
+        }
+
+        .list-content {
+            flex: 1;
+        }
+
+        .list-content h4 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .list-content p {
+            color: var(--gray);
+            line-height: 1.7;
+            margin-bottom: 0;
+            font-size: 1.05rem;
+        }
+
+        .danger-level {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(220, 53, 69, 0.08);
+            color: var(--danger);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        /* Safety Tips Box */
+        .safety-tips {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 3rem;
+            border-radius: var(--radius);
+            margin-top: 3rem;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .safety-tips::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .tips-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .tips-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tips-list li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        .tips-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 5rem 1.5rem 2rem;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            max-width: 300px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+            text-decoration: none;
+        }
+
+        .footer-logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .footer-logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .footer-description {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-heading {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .copyright {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-legal a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .footer-legal a:hover {
+            color: white;
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .safety-list-item {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.5rem;
+            }
+            
+            .list-icon {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                color: var(--dark);
+                cursor: pointer;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-legal {
+                justify-content: center;
+            }
+        }
+    </style>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,hi,gu,fr,es',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</head>
+<body>
+    <!-- Google Translate Widget -->
+    <div style="position: fixed; top: 20px; right: 20px; z-index: 9999; background: white; padding: 10px; border-radius: 8px; box-shadow: var(--shadow-md);">
+        <div id="google_translate_element"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar-custom">
+        <div class="container">
+            <a href="main.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <span class="logo-text">DigiSathi</span>
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="main.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="f.html" class="nav-link"><i class="fas fa-graduation-cap"></i> Advanced Learning</a></li>
+                <li><a href="#" class="nav-link active"><i class="fas fa-envelope"></i> Email Safety</a></li>
+            </ul>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button><pre>  </pre>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <section class="header-section">
+        <div class="container">
+            <div class="section-badge fade-in">
+                <i class="fas fa-exclamation-triangle"></i> Critical Alert
+            </div>
+            
+            <h1 class="section-title fade-in delay-1">
+                Avoid Unknown Emails
+            </h1>
+
+            <p class="section-subtitle fade-in delay-1">
+                Essential safety checklist to protect yourself from email-based threats,
+                phishing attempts, and malicious content in your inbox.
+            </p>
+        </div>
+    </section>
+
+    <!-- Email Safety Section -->
+    <section class="email-safety-section">
+        <div class="email-container">
+            <!-- Warning Banner -->
+            <div class="warning-banner fade-in">
+                <h3 class="warning-title">⚠️ Email Safety Warning</h3>
+                <p class="warning-text">
+                    Unknown emails are one of the most common ways cybercriminals attack.
+                    Always verify the sender before opening attachments or clicking links.
+                </p>
+            </div>
+
+            <!-- Safety List -->
+            <ul class="safety-list">
+                <!-- Item 1 -->
+                <li class="safety-list-item fade-in">
+                    <div class="list-icon">
+                        <i class="fas fa-virus"></i>
+                    </div>
+                    <div class="list-content">
+                        <h4>Malware & Virus Threats</h4>
+                        <p>
+                            Unknown emails may contain viruses, malware, or ransomware
+                            that can damage your device, steal data, or lock your files.
+                        </p>
+                        <div class="danger-level">
+                            <i class="fas fa-skull-crossbones"></i> High Risk
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Item 2 -->
+                <li class="safety-list-item fade-in delay-1">
+                    <div class="list-icon">
+                        <i class="fas fa-fish"></i>
+                    </div>
+                    <div class="list-content">
+                        <h4>Phishing Attempts</h4>
+                        <p>
+                            Many fake emails are phishing attempts designed to trick you into
+                            revealing passwords, bank details, or other personal information.
+                        </p>
+                        <div class="danger-level">
+                            <i class="fas fa-exclamation-triangle"></i> Very High Risk
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Item 3 -->
+                <li class="safety-list-item fade-in delay-2">
+                    <div class="list-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="list-content">
+                        <h4>Financial Fraud</h4>
+                        <p>
+                            Clicking links in suspicious emails can lead to financial fraud,
+                            unauthorized transactions, or theft of banking credentials.
+                        </p>
+                        <div class="danger-level">
+                            <i class="fas fa-money-bill-wave"></i> Critical Risk
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Item 4 -->
+                <li class="safety-list-item fade-in delay-3">
+                    <div class="list-icon">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <div class="list-content">
+                        <h4>Malicious Links</h4>
+                        <p>
+                            Suspicious attachments or links may redirect you to unsafe
+                            websites that install harmful software or steal your data.
+                        </p>
+                        <div class="danger-level">
+                            <i class="fas fa-shield-alt"></i> High Risk
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Item 5 -->
+                <li class="safety-list-item fade-in">
+                    <div class="list-icon">
+                        <i class="fas fa-user-secret"></i>
+                    </div>
+                    <div class="list-content">
+                        <h4>Identity Theft</h4>
+                        <p>
+                            Hackers can use fake emails to gather enough information
+                            to steal your identity online and commit fraud in your name.
+                        </p>
+                        <div class="danger-level">
+                            <i class="fas fa-id-card"></i> Severe Risk
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Item 6 -->
+                <li class="safety-list-item fade-in delay-1">
+                    <div class="list-icon">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <div class="list-content">
+                        <h4>Urgency & Panic Tactics</h4>
+                        <p>
+                            Scammers create false urgency or panic to trick users into
+                            quick, unthinking actions that compromise security.
+                        </p>
+                        <div class="danger-level">
+                            <i class="fas fa-clock"></i> Medium Risk
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Item 7 -->
+                <li class="safety-list-item fade-in delay-2">
+                    <div class="list-icon">
+                        <i class="fas fa-shield"></i>
+                    </div>
+                    <div class="list-content">
+                        <h4>Account Security</h4>
+                        <p>
+                            Avoiding unknown emails helps keep all your online accounts,
+                            devices, and personal data secure from unauthorized access.
+                        </p>
+                        <div class="danger-level">
+                            <i class="fas fa-lock"></i> Essential Protection
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- Safety Tips -->
+            <div class="safety-tips fade-in">
+                <h4 class="tips-title">Email Safety Checklist</h4>
+                <ul class="tips-list">
+                    <li>Always verify the sender's email address before opening</li>
+                    <li>Never click links or download attachments from unknown senders</li>
+                    <li>Look for spelling errors and poor grammar in emails</li>
+                    <li>Check for HTTPS and lock icon on any linked websites</li>
+                    <li>Use spam filters and email security features</li>
+                    <li>Report suspicious emails to your email provider</li>
+                    <li>When in doubt, delete the email without opening</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="main.html" class="footer-logo">
+                    <div class="footer-logo-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <span class="footer-logo-text">DigiSathi</span>
+                </a>
+                <p class="footer-description">
+                    Empowering rural India with digital literacy and safety education. 
+                    Making technology accessible, understandable, and safe for everyone.
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="footer-heading">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="main.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="startlearningfree.html"><i class="fas fa-chevron-right"></i> Learning Modules</a></li>
+                    <li><a href="cof.html"><i class="fas fa-chevron-right"></i> Common Frauds</a></li>
+                    <li><a href="f.html"><i class="fas fa-chevron-right"></i> Advanced Courses</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="footer-heading">Email Safety</h3>
+                <ul class="footer-links">
+                    <li><a href="avoidemail.html"><i class="fas fa-envelope"></i> Avoid Unknown Emails</a></li>
+                    <li><a href="Basicinternetsafety.html"><i class="fas fa-globe"></i> Internet Safety</a></li>
+                    <li><a href="avoidscams.html"><i class="fas fa-shield-alt"></i> Scam Prevention</a></li>
+                    <li><a href="usepass.html"><i class="fas fa-key"></i> Password Security</a></li>
+                    <li><a href="prodata.html"><i class="fas fa-user-shield"></i> Data Protection</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="footer-heading">Emergency Help</h3>
+                <ul class="footer-links">
+                    <li><a href="mailto:report@digisathi.org"><i class="fas fa-envelope"></i> Report Phishing</a></li>
+                    <li><a href="tel:+911800123456"><i class="fas fa-phone"></i> Helpline: 1800-123-456</a></li>
+                    <li><a href="#"><i class="fas fa-shield-alt"></i> Cyber Crime Cell</a></li>
+                    <li><a href="#"><i class="fas fa-life-ring"></i> Quick Help Guide</a></li>
+                    <li><a href="#"><i class="fas fa-download"></i> Email Safety PDF</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="copyright">
+                © 2024 DigiSathi. All rights reserved. Stay Safe with Email.
+            </div>
+            <div class="footer-legal">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Security Policy</a>
+                <a href="#">Report Spam</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // Fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all safety list items
+        document.querySelectorAll('.safety-list-item, .warning-banner, .safety-tips').forEach((el) => observer.observe(el));
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
